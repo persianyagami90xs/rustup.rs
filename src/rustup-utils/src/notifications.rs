@@ -23,6 +23,7 @@ pub enum Notification<'a> {
     UsingCurl,
     UsingHyper,
     UsingRustls,
+    UsingReqwest,
 }
 
 impl<'a> Notification<'a> {

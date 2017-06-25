@@ -19,11 +19,12 @@ build = "build.rs"
 
 [features]
 
-default = ["curl-backend", "hyper-backend"]
+default = ["curl-backend", "hyper-backend", "reqwest-backend"]
 
 curl-backend = ["download/curl-backend"]
 hyper-backend = ["download/hyper-backend"]
 rustls-backend = ["download/rustls-backend"]
+reqwest-backend = ["download/reqwest-backend"]
 
 # Include in the default set to disable self-update and uninstall.
 no-self-update = []
@@ -38,7 +39,7 @@ download = { path = "src/download" }
 error-chain = "0.7.1"
 clap = "2.18.0"
 regex = "0.1.41"
-url = "1.1.0"
+url = "^1.2"
 term = "0.4.4"
 itertools = "0.4.1"
 time = "0.1.34"
