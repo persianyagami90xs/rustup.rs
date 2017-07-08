@@ -19,11 +19,9 @@ build = "build.rs"
 
 [features]
 
-default = ["curl-backend", "hyper-backend", "reqwest-backend"]
+default = ["curl-backend"]
 
 curl-backend = ["download/curl-backend"]
-hyper-backend = ["download/hyper-backend"]
-rustls-backend = ["download/rustls-backend"]
 reqwest-backend = ["download/reqwest-backend"]
 
 # Include in the default set to disable self-update and uninstall.

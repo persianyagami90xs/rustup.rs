@@ -10,7 +10,6 @@ extern crate url;
 extern crate toml;
 extern crate download;
 extern crate semver;
-#[macro_use]
 extern crate lazy_static;
 
 #[cfg(windows)]

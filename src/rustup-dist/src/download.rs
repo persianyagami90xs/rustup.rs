@@ -69,10 +69,10 @@ impl<'a> DownloadCfg<'a> {
         let mut hasher = Sha256::new();
 
         try!(utils::download_file_with_resume(&url,
-                                  &partial_file_path,
-                                  Some(&mut hasher),
-                                  true,
-                                  &|n| (self.notify_handler)(n.into())));
+                                              &partial_file_path,
+                                              Some(&mut hasher),
+                                              true,
+                                              &|n| (self.notify_handler)(n.into())));
 
         let actual_hash = format!("{:x}", hasher.result());
 

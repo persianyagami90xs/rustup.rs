@@ -21,8 +21,6 @@ pub enum Notification<'a> {
     NoCanonicalPath(&'a Path),
     ResumingPartialDownload,
     UsingCurl,
-    UsingHyper,
-    UsingRustls,
     UsingReqwest,
 }
 
@@ -38,7 +36,7 @@ impl<'a> Notification<'a> {
             DownloadDataReceived(_) |
             DownloadFinished |
             ResumingPartialDownload |
-            UsingCurl | UsingHyper | UsingRustls => NotificationLevel::Verbose,
+            UsingCurl | UsingReqwest => NotificationLevel::Verbose,
             NoCanonicalPath(_) => NotificationLevel::Warn,
         }
     }
@@ -63,9 +61,7 @@ impl<'a> Display for Notification<'a> {
             NoCanonicalPath(path) => write!(f, "could not canonicalize path: '{}'", path.display()),
             ResumingPartialDownload => write!(f, "resuming partial download"),
             UsingCurl => write!(f, "downloading with curl"),
-            UsingHyper => write!(f, "downloading with hyper + native_tls"),
-            UsingRustls => write!(f, "downloading with hyper + rustls"),
+            UsingReqwest => write!(f, "downloading with reqwest"),
         }
     }
 }
-

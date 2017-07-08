@@ -221,14 +221,8 @@ fn download_file_(url: &Url,
     };
 
     // Download the file
-    let use_hyper_backend = env::var_os("RUSTUP_USE_HYPER").is_some();
-    let use_rustls_backend = env::var_os("RUSTUP_USE_RUSTLS").is_some();
     let use_reqwest_backend = env::var_os("RUSTUP_USE_REQWEST").is_some();
-    let (backend, notification) = if use_hyper_backend {
-        (Backend::Hyper, Notification::UsingHyper)
-    } else if use_rustls_backend {
-        (Backend::Rustls, Notification::UsingRustls)
-    } else if use_reqwest_backend {
+    let (backend, notification) = if use_reqwest_backend {
         (Backend::Reqwest, Notification::UsingReqwest)
     } else {
         (Backend::Curl, Notification::UsingCurl)
