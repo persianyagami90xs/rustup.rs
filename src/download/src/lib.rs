@@ -264,6 +264,7 @@ pub mod curl {
 #[cfg(feature = "reqwest")]
 pub mod reqwest {
 
+    extern crate env_proxy;
     extern crate reqwest;
 
     use std::io::Read;
@@ -275,7 +276,29 @@ pub mod reqwest {
     use super::Event;
 
     pub fn download(url: &Url, callback: &Fn(Event) -> Result<()>) -> Result<()> {
-        let mut resp = reqwest::get(url.as_str());
+        let scheme = url.scheme();
+
+        let maybe_proxy = env_proxy::for_url(&url);
+
+        let mut client_builder = reqwest::Client::builder().unwrap();
+
+        let client = match (scheme, maybe_proxy) {
+            ("http", Some(host_port)) => client_builder
+                .proxy(reqwest::Proxy::http(&format!("http://{}:{}", host_port.0, host_port.1)).unwrap())
+                .build()
+                .unwrap(),
+            ("https", Some(host_port)) => client_builder
+                .proxy(reqwest::Proxy::https(&format!("https://{}:{}", host_port.0, host_port.1)).unwrap())
+                .build()
+                .unwrap(),
+            (_, None) => client_builder.build().unwrap(),
+            (_, _) => return Err(format!("Unsupported URL scheme: '{}'", url.scheme()).into())
+        };
+
+        let mut req = client.get(url.as_str()).unwrap();
+
+        let mut resp = req.send();
+
         match resp {
             Ok(ref mut response) => {
                 let mut buf: Vec<u8> = vec![];
